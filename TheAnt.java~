@@ -85,7 +85,7 @@ public class TheAnt extends Application
             {
                 try
                 {
-                    Thread.sleep(2);
+                    Thread.sleep(1);
                 }
                 catch (Exception ex) {}
                 update(grid);
