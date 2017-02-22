@@ -106,7 +106,7 @@ public class TheAnt extends Application
         MenuItem startItem = new MenuItem("Start");
         MenuItem randomizeItem = new MenuItem("Randomize Grid");
         MenuItem stopItem = new MenuItem("Stop");
-        MenuItem clearItem = new MenuItem("Clear");
+        MenuItem resetItem = new MenuItem("Reset");
         MenuItem quitItem = new MenuItem("Quit");
         startItem.setOnAction( e-> {at.start();});
         randomizeItem.setOnAction( e-> {
@@ -122,7 +122,7 @@ public class TheAnt extends Application
             }
         });            
         stopItem.setOnAction( e-> {at.stop();});
-        clearItem.setOnAction( e-> {
+        resetItem.setOnAction( e-> {
             int l = grid.length;
             for(int i = 0; i<l; i++)
             {
@@ -131,9 +131,13 @@ public class TheAnt extends Application
                     grid[i][j].setState(false);
                 }
             }
+            grid[ant[0]][ant[1]].exitAnt();
+            ant[0] = 25;
+            ant[1] = 25;
+            grid[ant[0]][ant[1]].enterAnt();
         });
         quitItem.setOnAction( e-> Platform.exit());
-        commands.getItems().addAll(startItem,randomizeItem,stopItem,clearItem,quitItem);
+        commands.getItems().addAll(startItem,randomizeItem,stopItem,resetItem,quitItem);
         primary.setScene(s);
         primary.show();
     }
@@ -156,12 +160,30 @@ public class TheAnt extends Application
     {
         int xMod = dirControl.get(dir).get(0);
         int yMod = dirControl.get(dir).get(1);
-        int nextX = ant[0] + xMod;
-        int nextY = ant[1] + yMod;
-        grid[ant[0]][ant[1]].exitAnt();
-        grid[ant[0]][ant[1]].switchState();
-        ant[0] = nextX;
-        ant[1] = nextY;
-        grid[nextX][nextY].enterAnt();
+        if (!(isEdge(grid[ant[0]][ant[1]],grid)))
+        {
+            int nextX = ant[0] + xMod;
+            int nextY = ant[1] + yMod;
+            grid[ant[0]][ant[1]].exitAnt();
+            grid[ant[0]][ant[1]].switchState();
+            ant[0] = nextX;
+            ant[1] = nextY;
+            grid[nextX][nextY].enterAnt();
+        }
+        else
+        {
+            int l = grid.length;
+            for(int i = 0; i<l; i++)
+            {
+                for(int j = 0; j<l; j++)
+                {
+                    grid[i][j].setState(false);
+                }
+            }
+            grid[ant[0]][ant[1]].exitAnt();
+            ant[0] = 25;
+            ant[1] = 25;
+            grid[ant[0]][ant[1]].enterAnt();
+        }
     }
 }
