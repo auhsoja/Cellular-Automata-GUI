@@ -12,7 +12,7 @@ public class AutoCell extends Button
     {
         this.setOnAction( e->
                          {
-            if (this.alive == true) {this.alive = false;}
+            if (this.alive) {this.alive = false;}
             else {this.alive = true;}
             fixColor();
         });
